@@ -55,7 +55,7 @@ public class EditString
 					case 'R':
 					{
 						System.out.println("Reversing the string...");
-						reverse(stackOfText);
+						reversed(stackOfText);
 						System.out.println(stackOfText.top());
 						break;
 					}
@@ -68,8 +68,9 @@ public class EditString
 					}
 					case 'Z':
 					{
-						System.out.println(undo(stackOfText));
-						System.out.println(stackOfText.top());
+						System.out.print("Undoing...");
+						undo(stackOfText);
+						System.out.println("\n" + stackOfText.top());
 						break;
 					}
 					default:
@@ -104,9 +105,10 @@ public class EditString
 		stack.push(lower);
 	}
 
-	public static void reverse(ArrayBoundedStack<StringBuilder> stack)
+	public static void reversed(ArrayBoundedStack<StringBuilder> stack)
 	{
-		stack.push(stack.top().reverse());
+		StringBuilder temp = new StringBuilder(stack.top());
+		stack.push(temp.reverse());
 	}
 
 	public static void change(ArrayBoundedStack<StringBuilder> stack, String entry)
@@ -116,17 +118,15 @@ public class EditString
 		stack.push(replacements);
 	}
 
-	public static String undo(ArrayBoundedStack<StringBuilder> stack)
+	public static void undo(ArrayBoundedStack<StringBuilder> stack)
 	{
-		StringBuilder undone = new StringBuilder(stack.top());
+		StringBuilder redo = stack.top();
 		stack.pop();
 		if (stack.isEmpty())
 		{
-			stack.push(undone);
-			return "Nothing to undo!";
+			stack.push(redo);
+			System.out.println("\tNothing to undo!");
 		}
-		else
-			return "Undoing...";
 	}
 
 
